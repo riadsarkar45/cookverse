@@ -12,3 +12,14 @@ model User {
   name  String
   email String @unique
 }
+
+model Recipe {
+  id           Int       @id @default(autoincrement())
+  title        String
+  description  String
+  category     String
+  instructions String
+  addedBy      Int
+  isPublic     Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+}
