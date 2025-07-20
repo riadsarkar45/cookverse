@@ -30,5 +30,5 @@ export default async function userRoutes(fastify: FastifyInstance) {
     }, handler: addNewRecipe
   })  
 
-  fastify.get('/recipes', getAllRecipes)
+  fastify.get('/recipes',{ preHandler: fastify.authenticate }, getAllRecipes)
 }

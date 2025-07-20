@@ -76,7 +76,7 @@ export const getAllRecipes = async (req: FastifyRequest, reply: FastifyReply) =>
         if (recipes.length === 0) {
             return reply.status(404).send({ message: "No recipes found" });
         }
-        return reply.status(200).send({ recipes });
+        return reply.status(200).send({ recipes, user: req.user });
     } catch (error) {
         console.error("Error fetching recipes:", error);
         return reply.status(500).send({ message: "Internal server error" });

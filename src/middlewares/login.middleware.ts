@@ -2,7 +2,6 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import prisma from "../prisma/client";
 
 export const loginUser = async (req: FastifyRequest, reply: FastifyReply) => {
-    // Use req.query for GET requests
     const { email } = req.query as { email: string };
     if (!email) return reply.status(400).send({ message: "Please provide an email" });
 
@@ -14,7 +13,6 @@ export const loginUser = async (req: FastifyRequest, reply: FastifyReply) => {
             return reply.status(404).send({ message: "User not found" });
         }
 
-        // Use reply.jwtSign if @fastify/jwt is registered
         const token = await reply.jwtSign(
             { id: user.id, email: user.email },
             { expiresIn: '1h' }
