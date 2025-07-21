@@ -6,12 +6,25 @@ import dotenv from 'dotenv';
 import jwtPlugin from "./plugins/jwt";
 
 dotenv.config();
-const app = fastify({ logger: true });
+const app = fastify({
+  logger: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname',
+        colorize: true,
+      },
+    },
+  },
+});
+
 
 databaseConnection(app);
 app.register(jwtPlugin)
 app.register(userRoutes, {prefix: "api/v1"});
 app.register(authRoutes, {prefix: "api/v1"});
+
 app.get("/", async () => {
   return { hello: "world" };
 });

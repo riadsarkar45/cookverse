@@ -9,6 +9,9 @@ export default fp(async (fastify) => {
   fastify.decorate('authenticate', async function (req, reply) {
     try {
       await req.jwtVerify();
+      
+      fastify.log.info({user: req.user.name}, 'JWT verified successfully');
+      console.log('JWT verified successfully', {user: req.user.name});
     } catch (err) {
       reply.status(401).send({ message: 'Unauthorized you fucked up!' });
       throw err;
