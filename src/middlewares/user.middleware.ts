@@ -1,9 +1,9 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import prisma from "../prisma/client"
-
+import bcrypt from 'bcrypt';
 export const allUsers = async (req: FastifyRequest, reply: FastifyReply) => {
     try {
-        const { name, email } = req.body as { name: string; email: string };
+        const { name, email, password } = req.body as { name: string; email: string; password: string };
 
         if (!name || !email) return reply.status(400).send({ message: "Please fill all the fields" });
 
@@ -19,9 +19,13 @@ export const allUsers = async (req: FastifyRequest, reply: FastifyReply) => {
             return reply.status(400).send({ message: "Email already exists" });
         }
 
+        const hashedPassword = bcrypt.hashSync(password, 10);
+
         const newUser = await prisma.user.create({
             data: {
-                name: name, email: email
+                name: name,
+                email: email,
+                password: hashedPassword,
             }
         })
 

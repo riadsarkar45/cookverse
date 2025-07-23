@@ -8,9 +8,13 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
+  id       Int       @id @default(autoincrement())
+  name     String
+  email    String    @unique
+  password String
+  createdAt DateTime @default(now())
+  sessions Session[]
+  recipes  Recipe[]  @relation("UserRecipes")
 }
 
 model Recipe {
@@ -22,4 +26,21 @@ model Recipe {
   addedBy      Int
   isPublic     Boolean   @default(false)
   createdAt    DateTime  @default(now())
+  user         User      @relation("UserRecipes", fields: [addedBy], references: [id])
 }
+
+model Session {
+  uid          String   @id @default(uuid())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+  refreshToken String   @unique
+  userAgent    String
+  ip           String
+  createdAt    DateTime @default(now())
+  expiresAt    DateTime
+}
+
+
+
+
+
