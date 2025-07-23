@@ -1,10 +1,7 @@
-import '@fastify/jwt';
 import 'fastify';
+import '@fastify/jwt';
 
 declare module 'fastify' {
-  
-  
-
   interface FastifyInstance {
     authenticate: (request: any, reply: any) => Promise<void>;
   }

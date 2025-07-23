@@ -7,9 +7,10 @@ export const authRoutes = async (fastify: FastifyInstance) => {
     schema: {
       body: {
         type: 'object',
-        required: ['email'],
+        required: ['email', 'password'],
         properties: {
           email: { type: 'string', format: 'email' },
+          password: { type: 'string', minLength: 6 },
         },
       }
     }, handler: loginUser

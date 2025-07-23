@@ -4,6 +4,7 @@ import databaseConnection from "./controllers/databaseConnection";
 import { authRoutes } from "./routes/auth/auth.route";
 import dotenv from 'dotenv';
 import jwtPlugin from "./plugins/jwt";
+import fastifyCookie from "fastify-cookie";
 
 dotenv.config({ debug: true, path: '.env' });
 const app = fastify({
@@ -22,6 +23,7 @@ const app = fastify({
 
 databaseConnection(app);
 app.register(jwtPlugin)
+app.register(fastifyCookie)
 app.register(userRoutes, { prefix: "api/v1" });
 app.register(authRoutes, { prefix: "api/v1" });
 
