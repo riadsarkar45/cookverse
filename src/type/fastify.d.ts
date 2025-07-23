@@ -2,8 +2,18 @@ import 'fastify';
 import '@fastify/jwt';
 
 declare module 'fastify' {
+  interface FastifyRequest  {
+    jwtVerify(): Promise<void>;
+    user: {
+      id: number;
+      name: string;
+      email: string;
+      role?: string;
+    };
+  }
+
   interface FastifyInstance {
-    authenticate: (request: any, reply: any) => Promise<void>;
+    authenticate: (request: FastifyRequest, reply: import('fastify').FastifyReply) => Promise<void>;
   }
 }
 
@@ -13,7 +23,7 @@ declare module '@fastify/jwt' {
       id: number;
       name: string;
       email: string;
-      password: string;
+      role?: string;
     };
   }
 }

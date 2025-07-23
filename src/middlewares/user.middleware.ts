@@ -3,7 +3,7 @@ import prisma from "../prisma/client"
 import bcrypt from 'bcrypt';
 export const allUsers = async (req: FastifyRequest, reply: FastifyReply) => {
     try {
-        const { name, email, password } = req.body as { name: string; email: string; password: string };
+        const { name, email, password, role } = req.body as { name: string; email: string; password: string, role: any };
 
         if (!name || !email) return reply.status(400).send({ message: "Please fill all the fields" });
 
@@ -26,6 +26,7 @@ export const allUsers = async (req: FastifyRequest, reply: FastifyReply) => {
                 name: name,
                 email: email,
                 password: hashedPassword,
+                role: role || 'USER'
             }
         })
 
